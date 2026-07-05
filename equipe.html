@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planning équipe | Salon Kamel</title>
+    <meta name="description" content="Planning interne des rendez-vous du Salon Kamel." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="team-page">
+    <header class="topbar" aria-label="Navigation équipe">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">SK</span>
+        <span>Salon Kamel</span>
+      </a>
+      <nav>
+        <a href="index.html">Site client</a>
+        <a href="index.html#reservation">Nouveau rendez-vous</a>
+      </nav>
+      <a class="call-link" href="tel:+33235211175">02 35 21 11 75</a>
+    </header>
+
+    <main class="team-shell">
+      <section class="team-header">
+        <div>
+          <p class="eyebrow">Espace équipe</p>
+          <h1>Planning des rendez-vous</h1>
+          <p>
+            Les rendez-vous pris sur le site client apparaissent ici par coiffeur,
+            date et heure.
+          </p>
+        </div>
+        <div class="team-actions">
+          <label>
+            Coiffeur
+            <select id="teamStylist"></select>
+          </label>
+          <label>
+            Date
+            <input id="teamDate" type="date" />
+          </label>
+          <button class="button secondary-dark" id="clearDay" type="button">Vider la journée</button>
+        </div>
+      </section>
+
+      <section class="agenda-layout">
+        <aside class="day-card">
+          <span id="appointmentCount">0 rendez-vous</span>
+          <strong id="selectedDayLabel">Aujourd'hui</strong>
+          <p id="selectedStylistLabel">Tous les coiffeurs</p>
+        </aside>
+        <div class="agenda-list" id="agendaList" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="equipe.js"></script>
+  </body>
+</html>

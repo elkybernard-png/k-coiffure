@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Salon Kamel | Coiffeur au Havre</title>
+    <meta
+      name="description"
+      content="Salon Kamel, salon de coiffure au 55 Rue Edouard Lang, 76600 Le Havre. Prenez rendez-vous avec le coiffeur de votre choix."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="Navigation principale">
+      <a class="brand" href="#accueil" aria-label="Salon Kamel accueil">
+        <span class="brand-mark">SK</span>
+        <span>Salon Kamel</span>
+      </a>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#equipe">Coiffeurs</a>
+        <a href="#reservation">Rendez-vous</a>
+        <a href="#contact">Contact</a>
+        <a href="equipe.html">Planning équipe</a>
+      </nav>
+      <a class="call-link" href="tel:+33235211175">02 35 21 11 75</a>
+    </header>
+
+    <main>
+      <section class="hero" id="accueil">
+        <img
+          src="assets/salon-interieur-1.png"
+          alt="Intérieur du Salon Kamel avec fauteuils, miroirs et poste de coiffure"
+        />
+        <div class="hero-overlay">
+          <p class="rating">5,0 / 5 - 56 avis</p>
+          <h1>Salon Kamel</h1>
+          <p>
+            Salon de coiffure au Havre, dans une ambiance chaleureuse et soignée.
+            Choisissez votre prestation, votre coiffeur, puis votre créneau.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#reservation">Prendre rendez-vous</a>
+            <a class="button secondary" href="https://www.google.com/maps/search/?api=1&query=55%20Rue%20Edouard%20Lang%2C%2076600%20Le%20Havre">Itinéraire</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-strip" aria-label="Informations rapides">
+        <div>
+          <span>Adresse</span>
+          <strong>55 Rue Edouard Lang, 76600 Le Havre</strong>
+        </div>
+        <div>
+          <span>Ouverture</span>
+          <strong>Mar. - Ven. 10:00-18:30, Sam. 09:00-17:00</strong>
+        </div>
+        <div>
+          <span>Téléphone</span>
+          <strong>02 35 21 11 75</strong>
+        </div>
+      </section>
+
+      <section class="section two-column">
+        <div>
+          <p class="eyebrow">Le salon</p>
+          <h2>Un espace de coiffure élégant, confortable et proche du centre du Havre.</h2>
+          <p>
+            Le Salon Kamel accueille femmes, hommes et enfants pour les coupes,
+            brushings, soins, tailles de barbe et prestations couleur. Le parcours
+            de réservation ci-dessous permet de choisir directement le professionnel
+            souhaité.
+          </p>
+        </div>
+        <img
+          class="feature-photo"
+          src="assets/salon-interieur-2.png"
+          alt="Espace d'attente et postes de coiffure du Salon Kamel"
+        />
+      </section>
+
+      <section class="section" id="services">
+        <div class="section-heading">
+          <p class="eyebrow">Prestations</p>
+          <h2>Les services les plus demandés</h2>
+        </div>
+        <div class="service-grid" id="serviceGrid"></div>
+      </section>
+
+      <section class="section muted" id="equipe">
+        <div class="section-heading">
+          <p class="eyebrow">Coiffeurs</p>
+          <h2>Choisissez votre coiffeur</h2>
+        </div>
+        <div class="staff-grid" id="staffGrid"></div>
+      </section>
+
+      <section class="booking-section" id="reservation">
+        <div class="booking-intro">
+          <p class="eyebrow">Rendez-vous</p>
+          <h2>Réserver un créneau</h2>
+          <p>
+            Cette démo enregistre le rendez-vous dans le planning équipe et ouvre
+            aussi un mail prêt à envoyer au salon.
+          </p>
+        </div>
+
+        <form class="booking-form" id="bookingForm">
+          <label>
+            Service
+            <select id="service" name="service" required></select>
+          </label>
+
+          <label>
+            Coiffeur
+            <select id="stylist" name="stylist" required></select>
+          </label>
+
+          <div class="form-row">
+            <label>
+              Date
+              <input id="date" name="date" type="date" required />
+            </label>
+            <label>
+              Heure
+              <select id="time" name="time" required></select>
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Nom
+              <input id="name" name="name" type="text" placeholder="Votre nom" required />
+            </label>
+            <label>
+              Téléphone
+              <input id="phone" name="phone" type="tel" placeholder="06 00 00 00 00" required />
+            </label>
+          </div>
+
+          <label>
+            Message
+            <textarea id="message" name="message" rows="3" placeholder="Précision, préférence, historique couleur..."></textarea>
+          </label>
+
+          <div class="booking-summary" id="summary" aria-live="polite"></div>
+          <button class="button primary full" type="submit">Préparer la demande</button>
+        </form>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Salon Kamel</h2>
+          <p>55 Rue Edouard Lang, 76600 Le Havre</p>
+          <p><a href="tel:+33235211175">02 35 21 11 75</a></p>
+        </div>
+        <div class="hours">
+          <h3>Horaires</h3>
+          <p><span>Dimanche</span><strong>Fermé</strong></p>
+          <p><span>Lundi</span><strong>Fermé</strong></p>
+          <p><span>Mardi</span><strong>10:00 - 18:30</strong></p>
+          <p><span>Mercredi</span><strong>10:00 - 18:30</strong></p>
+          <p><span>Jeudi</span><strong>10:00 - 18:30</strong></p>
+          <p><span>Vendredi</span><strong>10:00 - 18:30</strong></p>
+          <p><span>Samedi</span><strong>09:00 - 17:00</strong></p>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
