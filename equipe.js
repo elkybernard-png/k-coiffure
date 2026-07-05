@@ -1,3 +1,53 @@
+const stylists = ["Tous les coiffeurs", "Sabrina", "Nadia", "Samir"];
+const bookingStorageKey = "salonKamelBookings";
+const supabaseUrl = "https://ltoapqqzrrweijrkxdpi.supabase.co";
+const supabaseKey = "sb_publishable_rL_RaUsT07dsW7Q9CFcWfw_DHLUpz5R";
+
+const teamStylist = document.querySelector("#teamStylist");
+const teamDate = document.querySelector("#teamDate");
+const agendaList = document.querySelector("#agendaList");
+const appointmentCount = document.querySelector("#appointmentCount");
+const selectedDayLabel = document.querySelector("#selectedDayLabel");
+const selectedStylistLabel = document.querySelector("#selectedStylistLabel");
+const clearDay = document.querySelector("#clearDay");
+const toast = document.querySelector("#toast");
+
+function bookingFromDatabase(row) {
+  return {
+    id: row.id,
+    createdAt: row.created_at,
+    clientName: row.client_name,
+    phone: row.phone,
+    service: row.service,
+    duration: row.duration,
+    stylist: row.stylist,
+    date: row.date,
+    time: row.time,
+    message: row.message || "",
+    status: row.status || "confirmé"
+  };
+}
+
+async function supabaseRequest(path, options = {}) {
+  const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || "Erreur Supabase");
+  }
+
+  if (response.status === 204) return null;
+  return response.json();
+}
+
 function loadLocalBookings() {
   try {
     return JSON.parse(localStorage.getItem(bookingStorageKey)) || [];
