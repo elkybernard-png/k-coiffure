@@ -1,16 +1,4 @@
-const stylists = ["Tous les coiffeurs", "Sabrina", "Nadia", "Samir"];
-const bookingStorageKey = "salonKamelBookings";
-
-const teamStylist = document.querySelector("#teamStylist");
-const teamDate = document.querySelector("#teamDate");
-const agendaList = document.querySelector("#agendaList");
-const appointmentCount = document.querySelector("#appointmentCount");
-const selectedDayLabel = document.querySelector("#selectedDayLabel");
-const selectedStylistLabel = document.querySelector("#selectedStylistLabel");
-const clearDay = document.querySelector("#clearDay");
-const toast = document.querySelector("#toast");
-
-function loadBookings() {
+function loadLocalBookings() {
   try {
     return JSON.parse(localStorage.getItem(bookingStorageKey)) || [];
   } catch (error) {
@@ -18,8 +6,18 @@ function loadBookings() {
   }
 }
 
-function saveBookings(bookings) {
+function saveLocalBookings(bookings) {
   localStorage.setItem(bookingStorageKey, JSON.stringify(bookings));
+}
+
+async function loadBookings() {
+  try {
+    const rows = await supabaseRequest("rendez_vous?select=*&status=eq.confirmé&order=date.asc,time.asc");
+    return rows.map(bookingFromDatabase);
+  } catch (error) {
+    showToast("Connexion planning en ligne impossible. Mode test local utilisé.");
+    return loadLocalBookings();
+  }
 }
 
 function formatDate(value) {
@@ -43,25 +41,25 @@ function renderStylistOptions() {
     .join("");
 }
 
-function setDefaultDate() {
+async function setDefaultDate() {
   const today = new Date().toLocaleDateString("en-CA");
-  const nextBooking = loadBookings()
+  const nextBooking = (await loadBookings())
     .filter((booking) => booking.date >= today)
     .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`))[0];
 
   teamDate.value = nextBooking?.date || today;
 }
 
-function filteredBookings() {
+async function filteredBookings() {
   const stylist = teamStylist.value;
-  return loadBookings()
+  return (await loadBookings())
     .filter((booking) => booking.date === teamDate.value)
     .filter((booking) => stylist === "Tous les coiffeurs" || booking.stylist === stylist)
     .sort((a, b) => a.time.localeCompare(b.time));
 }
 
-function renderAgenda() {
-  const bookings = filteredBookings();
+async function renderAgenda() {
+  const bookings = await filteredBookings();
   appointmentCount.textContent = `${bookings.length} rendez-vous`;
   selectedDayLabel.textContent = formatDate(teamDate.value);
   selectedStylistLabel.textContent = teamStylist.value;
@@ -99,15 +97,22 @@ function renderAgenda() {
     .join("");
 }
 
-function removeBooking(id) {
-  saveBookings(loadBookings().filter((booking) => booking.id !== id));
-  renderAgenda();
+async function removeBooking(id) {
+  try {
+    await supabaseRequest(`rendez_vous?id=eq.${id}`, { method: "DELETE" });
+  } catch (error) {
+    saveLocalBookings(loadLocalBookings().filter((booking) => booking.id !== id));
+  }
+
+  await renderAgenda();
   showToast("Rendez-vous retiré du planning.");
 }
 
-renderStylistOptions();
-setDefaultDate();
-renderAgenda();
+async function init() {
+  renderStylistOptions();
+  await setDefaultDate();
+  await renderAgenda();
+}
 
 teamStylist.addEventListener("change", renderAgenda);
 teamDate.addEventListener("change", renderAgenda);
@@ -117,15 +122,27 @@ agendaList.addEventListener("click", (event) => {
   if (button) removeBooking(button.dataset.id);
 });
 
-clearDay.addEventListener("click", () => {
+clearDay.addEventListener("click", async () => {
   const stylist = teamStylist.value;
-  const remaining = loadBookings().filter((booking) => {
+  const bookings = await loadBookings();
+  const toDelete = bookings.filter((booking) => {
     const sameDay = booking.date === teamDate.value;
     const sameStylist = stylist === "Tous les coiffeurs" || booking.stylist === stylist;
-    return !(sameDay && sameStylist);
+    return sameDay && sameStylist;
   });
 
-  saveBookings(remaining);
-  renderAgenda();
+  await Promise.all(
+    toDelete.map((booking) => supabaseRequest(`rendez_vous?id=eq.${booking.id}`, { method: "DELETE" }).catch(() => null))
+  );
+  saveLocalBookings(
+    loadLocalBookings().filter((booking) => {
+      const sameDay = booking.date === teamDate.value;
+      const sameStylist = stylist === "Tous les coiffeurs" || booking.stylist === stylist;
+      return !(sameDay && sameStylist);
+    })
+  );
+  await renderAgenda();
   showToast("La journée affichée a été vidée.");
 });
+
+init();
