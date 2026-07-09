@@ -75,7 +75,6 @@ const timeSelect = document.querySelector("#time");
 const summary = document.querySelector("#summary");
 const bookingForm = document.querySelector("#bookingForm");
 const toast = document.querySelector("#toast");
-const bookingEmail = "elky.bernard@gmail.com";
 const bookingStorageKey = "salonKamelBookings";
 const supabaseUrl = "https://ltoapqqzrrweijrkxdpi.supabase.co";
 const supabaseKey = "sb_publishable_rL_RaUsT07dsW7Q9CFcWfw_DHLUpz5R";
@@ -367,28 +366,10 @@ async function submitBooking(event) {
     return;
   }
 
-  const lines = [
-    "Bonjour Salon Kamel, je souhaite prendre rendez-vous.",
-    `Nom : ${booking.clientName}`,
-    `Téléphone : ${booking.phone}`,
-    `Prestation : ${booking.service}`,
-    `Coiffeur souhaité : ${booking.stylist}`,
-    `Date : ${formatDate(booking.date)}`,
-    `Heure : ${booking.time}`,
-    booking.message ? `Message : ${booking.message}` : ""
-  ].filter(Boolean);
-
   const savedBooking = await createBooking(booking);
   cachedBookings.push(savedBooking);
   showBookingSaved(savedBooking);
-
-  const subject = `Demande de rendez-vous - ${savedBooking.clientName}`;
-  const body = lines.join("\n");
-  const mailto = `mailto:${bookingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  navigator.clipboard?.writeText(body);
-  showToast("Rendez-vous ajouté au planning. Le mail est prêt à envoyer.");
-  window.location.href = mailto;
+  showToast("Rendez-vous ajouté au planning équipe.");
 }
 
 async function init() {

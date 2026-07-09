@@ -26,7 +26,22 @@
       <a class="call-link" href="tel:+33235211175">02 35 21 11 75</a>
     </header>
 
-    <main class="team-shell">
+    <main class="team-shell locked" id="teamShell">
+      <section class="team-login" id="teamLogin">
+        <div>
+          <p class="eyebrow">Accès réservé</p>
+          <h1>Planning équipe</h1>
+          <p>Entrez le code du salon pour consulter les rendez-vous.</p>
+        </div>
+        <form class="team-login-form" id="teamLoginForm">
+          <label>
+            Code d'accès
+            <input id="teamAccessCode" type="password" autocomplete="current-password" required />
+          </label>
+          <button class="button primary full" type="submit">Accéder au planning</button>
+        </form>
+      </section>
+
       <section class="team-header">
         <div>
           <p class="eyebrow">Espace équipe</p>
@@ -46,6 +61,7 @@
             <input id="teamDate" type="date" />
           </label>
           <button class="button secondary-dark" id="clearDay" type="button">Vider la journée</button>
+          <button class="button secondary-dark" id="logoutTeam" type="button">Déconnexion</button>
         </div>
       </section>
 

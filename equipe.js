@@ -2,7 +2,13 @@ const stylists = ["Tous les coiffeurs", "Sabrina", "Nadia", "Samir"];
 const bookingStorageKey = "salonKamelBookings";
 const supabaseUrl = "https://ltoapqqzrrweijrkxdpi.supabase.co";
 const supabaseKey = "sb_publishable_rL_RaUsT07dsW7Q9CFcWfw_DHLUpz5R";
+const teamAccessCode = "salon2026";
+const teamSessionKey = "salonKamelTeamAccess";
 
+const teamShell = document.querySelector("#teamShell");
+const teamLogin = document.querySelector("#teamLogin");
+const teamLoginForm = document.querySelector("#teamLoginForm");
+const teamAccessCodeInput = document.querySelector("#teamAccessCode");
 const teamStylist = document.querySelector("#teamStylist");
 const teamDate = document.querySelector("#teamDate");
 const agendaList = document.querySelector("#agendaList");
@@ -10,6 +16,7 @@ const appointmentCount = document.querySelector("#appointmentCount");
 const selectedDayLabel = document.querySelector("#selectedDayLabel");
 const selectedStylistLabel = document.querySelector("#selectedStylistLabel");
 const clearDay = document.querySelector("#clearDay");
+const logoutTeam = document.querySelector("#logoutTeam");
 const toast = document.querySelector("#toast");
 
 function bookingFromDatabase(row) {
@@ -83,6 +90,21 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
   window.setTimeout(() => toast.classList.remove("visible"), 3000);
+}
+
+function hasTeamAccess() {
+  return sessionStorage.getItem(teamSessionKey) === "ok";
+}
+
+function showTeamApp() {
+  teamShell.classList.remove("locked");
+  teamLogin.hidden = true;
+}
+
+function showTeamLogin() {
+  teamShell.classList.add("locked");
+  teamLogin.hidden = false;
+  teamAccessCodeInput.focus();
 }
 
 function renderStylistOptions() {
@@ -159,6 +181,12 @@ async function removeBooking(id) {
 }
 
 async function init() {
+  if (!hasTeamAccess()) {
+    showTeamLogin();
+    return;
+  }
+
+  showTeamApp();
   renderStylistOptions();
   await setDefaultDate();
   await renderAgenda();
@@ -193,6 +221,24 @@ clearDay.addEventListener("click", async () => {
   );
   await renderAgenda();
   showToast("La journée affichée a été vidée.");
+});
+
+teamLoginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (teamAccessCodeInput.value.trim() !== teamAccessCode) {
+    showToast("Code incorrect.");
+    teamAccessCodeInput.select();
+    return;
+  }
+
+  sessionStorage.setItem(teamSessionKey, "ok");
+  await init();
+});
+
+logoutTeam.addEventListener("click", () => {
+  sessionStorage.removeItem(teamSessionKey);
+  showTeamLogin();
 });
 
 init();
