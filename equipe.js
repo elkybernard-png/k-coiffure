@@ -99,6 +99,7 @@ function hasTeamAccess() {
 function showTeamApp() {
   teamShell.classList.remove("locked");
   teamLogin.hidden = true;
+  window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function showTeamLogin() {
@@ -234,6 +235,7 @@ teamLoginForm.addEventListener("submit", async (event) => {
 
   sessionStorage.setItem(teamSessionKey, "ok");
   await init();
+  window.scrollTo({ top: 0, behavior: "auto" });
 });
 
 logoutTeam.addEventListener("click", () => {
