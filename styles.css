@@ -48,7 +48,8 @@ a {
 .brand,
 nav,
 .hero-actions,
-.form-row {
+.form-row,
+.header-actions {
   display: flex;
   align-items: center;
 }
@@ -78,8 +79,22 @@ nav {
 }
 
 nav a,
-.call-link {
+.call-link,
+.team-link {
   text-decoration: none;
+}
+
+.header-actions {
+  gap: 12px;
+}
+
+.team-link {
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .call-link {
@@ -674,6 +689,11 @@ textarea:focus {
 
   .call-link {
     display: none;
+  }
+
+  .team-link {
+    padding: 9px 10px;
+    font-size: 0.9rem;
   }
 
   .hero {
