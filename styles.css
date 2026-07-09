@@ -425,11 +425,17 @@ textarea:focus {
   line-height: 1.55;
 }
 
-.booking-note {
+.booking-note,
+.privacy-note {
   margin: -4px 0 0;
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.55;
+}
+
+.privacy-note {
+  margin-top: -8px;
+  font-size: 0.86rem;
 }
 
 .contact {
