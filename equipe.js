@@ -100,12 +100,16 @@ function hasTeamAccess() {
 function showTeamApp() {
   teamShell.classList.remove("locked");
   teamLogin.hidden = true;
-  teamPlanning.scrollIntoView({ block: "start", behavior: "auto" });
+  teamLogin.style.display = "none";
+  window.setTimeout(() => {
+    teamPlanning.scrollIntoView({ block: "start", behavior: "auto" });
+  }, 50);
 }
 
 function showTeamLogin() {
   teamShell.classList.add("locked");
   teamLogin.hidden = false;
+  teamLogin.style.display = "";
   teamAccessCodeInput.focus();
 }
 
@@ -236,7 +240,9 @@ teamLoginForm.addEventListener("submit", async (event) => {
 
   sessionStorage.setItem(teamSessionKey, "ok");
   await init();
-  teamPlanning.scrollIntoView({ block: "start", behavior: "auto" });
+  window.setTimeout(() => {
+    teamPlanning.scrollIntoView({ block: "start", behavior: "auto" });
+  }, 50);
 });
 
 logoutTeam.addEventListener("click", () => {

@@ -485,6 +485,10 @@ textarea:focus {
   min-height: calc(100vh - 180px);
 }
 
+.team-login[hidden] {
+  display: none;
+}
+
 .team-login h1 {
   margin-bottom: 18px;
   font-size: clamp(2.7rem, 6vw, 5.6rem);
